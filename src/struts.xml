@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" /> 
+	<package name="default" namespace="/web" extends="struts-default">
+		<interceptors>	<!-- 注册拦截器   -->
+			<interceptor name="auth" class="com.bctc.action.AuthInterceptor"  />	<!-- 权限验证拦截器 -->
+			<interceptor-stack name="myStack"> <!-- 自定义拦截器栈 -->
+				<interceptor-ref name="defaultStack"></interceptor-ref>			<!-- 默认的拦截器栈 -->
+				<interceptor-ref name="auth"></interceptor-ref>					<!-- 自己的权限拦截器 -->			
+			</interceptor-stack>
+		</interceptors>
+		<!-- 不需要权限拦截的Action   如登录 -->
+		<action name="Login_*"	method="{1}" class="com.bctc.action.LoginAction">
+			<result>main.jsp</result>
+			<result name="login">login.jsp</result>		<!--登录界面-->
+		</action>
+		<action name="VerifyCodeAction"	 class="com.bctc.action.VerifyCodeAction" /><!--生产验证码 -->
+		
+ 		<action name="*_*" method="{2}" class="com.bctc.action.{1}Action">
+ 			<result name="success">success.jsp</result>
+ 			<result name="error">error.jsp</result>				<!-- 错误提示页面 -->
+ 			<result name="json">json.jsp</result>				<!-- 返回json数据 -->
+ 			<result name="login_success">main.jsp</result>			<!-- 主界面  -->
+ 			<result name="login">login.jsp</result>		<!--登录界面-->
+ 			<result name="department_list">department_list.jsp</result><!-- 部门列表-->
+			<result name="role_list">role_list.jsp</result>				<!--角色列表  -->
+			<result name="user_list">user_list.jsp</result>				<!--用户列表  -->
+			<result name="user_add">user_add.jsp</result>		<!-- 添加用户界面 -->
+			<result name="user_change_password">user_change_password.jsp</result><!--改密码界面  -->
+			<result name="quarter_list">quarter_list.jsp</result><!-- 季度列表  -->
+			<result name="kpi_user_list">kpi_user_list.jsp</result><!-- 拟定kpi人员列表 -->
+			<result name="kpi_content_list">kpi_content_list.jsp</result><!--某人KPI指标列表  -->
+ 			<result name="kpi_content_add_kpi">kpi_content_add_kpi.jsp</result>	<!-- 添加KPI指标界面  -->
+ 			<result name="kpi_content_add_gs">kpi_content_add_gs.jsp</result>	<!-- 添加GS指标界面  -->
+ 			<result name="fill_content_list">fill_content_list.jsp</result><!--填写完成情况ContentKPI列表 -->
+ 			<result name="fill_kpi_content_actual">fill_kpi_content_actual.jsp</result><!-- 填写某个ContentKPI KPI的完成情况 -->
+ 			<result name="fill_gs_content_actual">fill_gs_content_actual.jsp</result><!-- 填写某个ContentKPI GS的完成情况 -->
+ 			<result name="proportion_user_list">proportion_user_list.jsp</result><!-- 显示设定评分比例的用户列表  	-->
+ 			<result name="proportion_list">proportion_list.jsp</result><!--去设置比例 -->
+ 			<result name="look_proportion">look_proportion.jsp</result><!-- 查看某人的评分比例 -->
+ 			<result name="score_user_list">score_user_list.jsp</result><!-- 我要打分的列表 -->
+ 			<result name="score_content_list">score_content_list.jsp</result><!-- 进入给某人打分的页面 -->
+ 			<result name="kpi_result">kpi_result.jsp</result>		<!-- 查看某人最终KPI得分表 -->
+ 			<result name="result_user_list">result_user_list.jsp</result><!-- 查看KPI得分 的用户列表 -->
+ 			<result name="result_detail_list">result_detail_list.jsp</result><!-- 互评详表表 -->
+ 			<result name="look_score">look_score.jsp</result>	<!-- 显示某contentKPI 得分详情 -->		
+ 			<result name="kpi_template_list">kpi_template_list.jsp</result><!-- 显示我的模板列表 -->
+ 			<result name="kpi_template_content_list">kpi_template_content_list.jsp</result><!-- 显示模板内容 -->
+ 			<result name="year_list">year_list.jsp</result>	<!-- 显示年度列表 -->
+ 			<result name="add_year">add_year.jsp</result><!-- 添加年的页面 -->
+ 			<result name="behavior_list">behavior_list.jsp</result><!-- 年度行为绩效表 -->
+ 			<result name="behavior_user_list">behavior_user_list.jsp</result><!-- 年度打分人员列表 -->
+ 			<result name="fill_behavior_list">fill_behavior_list.jsp</result><!-- 填写年度成绩 -->
+ 			<result name="year_score_user_list">year_score_user_list.jsp</result><!--查看年度成绩 -->
+ 			<result name="powerGroup_list">powerGroup_list.jsp </result>		<!-- 权限组列表 -->
+ 			<result name="powerGroup_toAddOrUpdate">powerGroup_toAddOrUpdate.jsp</result><!-- 添加或修改权限组 -->
+ 			<interceptor-ref name="myStack"></interceptor-ref>		<!-- 引用默认拦截器栈 -->
+ 		</action>
+ 	</package>
+</struts>    
