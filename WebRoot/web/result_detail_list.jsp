@@ -11,6 +11,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>用户列表</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <link href="css/select.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+
+table th{word-break: keep-all;}
+table td{word-break: keep-all;}
+</style>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/jquery.idTabs.min.js"></script>
 <script type="text/javascript" src="js/select-ui.min.js"></script>
@@ -166,20 +171,20 @@ $(document).ready(function(){
     <table class="tablelist">
     	<thead>
     	<tr>
-	        <th>部门</th>
-	        <th>姓名</th>
+	        <th style="WORD-WRAP: break-word" width="20">部门</th>
+	        <th style="WORD-WRAP: break-word" width="20">姓名</th>
 	       	<s:iterator value="list" var="t">
-	       	<th><s:property value="#t.name"/>  </th>
+	       	<th style="WORD-WRAP: break-word" width="20"><s:property value="#t.name"/>  </th>
 	       	</s:iterator>
         </tr>
         </thead>
         <tbody>
          <s:iterator value="list" var="u">
         <tr>
-	        <td>	<s:property value="#u.department.name"  />  	</td>
-	        <td>	<s:property value="#u.name"  />  </td>
+	        <td  >	<s:property value="#u.department.name"  />  	</td>
+	        <td >	<s:property value="#u.name"  />  </td>
 	       	<s:iterator value="list" var="x">
-	       	<td><s:property value="map[#u.uid][#x.uid]"/>  </td>
+	       	<td ><s:property value="map[#u.uid][#x.uid]"/>  </td>
 	       	</s:iterator>
 	    </tr>
        </s:iterator>
