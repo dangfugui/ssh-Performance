@@ -108,7 +108,7 @@ $(document).ready(function(){
 	    <li><input value="<s:property value='#role.name'/>"  type="text" disabled="disabled" class="scinput1" /></li>
 	    <li><label></label> </li>
 	 	<li><label>比例<b>%</b></label> </li>
-	    <li><label><input type="text" class="scinput1"  onkeyup="this.value=this.value.replace(/\D/gi, '')"  
+	    <li><label><input type="text" class="scinput1"  onkeyup="this.value=this.value.replace(/[^\-+\d+\.]/g,'')"  
 	    	name="map[<s:property value="#role.rid"/>]" /></label> </li>
 	    <li><label></label> </li>
 	   <!--  </ul>
