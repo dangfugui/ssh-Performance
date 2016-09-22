@@ -324,27 +324,27 @@ public class UserAction extends SuperAction{
 				sum+=zuyaomap1.get(i)*zuyaomap2.get(i);
 				proportion+=zuyaomap1.get(i);
 			}
-			if(proportion!=0)
+			
 			userkpi.setZuyao(sum/proportion);sum=0.0;proportion=0.0;
 			
 			for (int i=0;i< fenguan1.size();i++) {//主要负责人
 				sum+=fenguan1.get(i)*fenguan2.get(i);
 				proportion+=fenguan1.get(i);
 			}
-			if(proportion!=0)
+			
 			userkpi.setFenguang(sum/proportion);sum=0.0;proportion=0.0;
 			
 			for (int i=0;i< sijingli1.size();i++) {//主要负责人
 				sum+=sijingli1.get(i)*sijingli2.get(i);
 				proportion+=sijingli1.get(i);
 			}
-			if(proportion!=0)
+			
 			userkpi.setSijingli(sum/proportion);sum=0.0;proportion=0.0;
 			for (int i=0;i< yuangong1.size();i++) {//主要负责人
 				sum+=yuangong1.get(i)*yuangong2.get(i);
 				proportion+=yuangong1.get(i);
 			}
-			if(proportion!=0)
+			
 			userkpi.setYuangong(sum/proportion);sum=0.0;proportion=0.0;
 			
 			KPI kpi = kpiService.load(quarter, u);

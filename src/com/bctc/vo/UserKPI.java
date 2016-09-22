@@ -24,37 +24,37 @@ public class UserKPI {
 		return zuyao;
 	}
 	public void setZuyao(double zuyao) {
-		this.zuyao = zuyao;
+		this.zuyao=Math.rint(zuyao*100)/100;
 	}
 	public double getFenguang() {
 		return fenguang;
 	}
 	public void setFenguang(double fenguang) {
-		this.fenguang = fenguang;
+		this.fenguang = Math.rint(fenguang*100)/100;
 	}
 	public double getSijingli() {
 		return sijingli;
 	}
 	public void setSijingli(double sijingli) {
-		this.sijingli = sijingli;
+		this.sijingli = Math.rint(sijingli*100)/100;
 	}
 	public double getYuangong() {
 		return yuangong;
 	}
 	public void setYuangong(double yuangong) {
-		this.yuangong = yuangong;
+		this.yuangong = Math.rint(yuangong*100)/100;
 	}
 	public double getXiaji() {
 		return xiaji;
 	}
 	public void setXiaji(double xiaji) {
-		this.xiaji = xiaji;
+		this.xiaji =Math.rint(xiaji*100)/100;
 	}
 	public double getZonghe() {
 		return zonghe;
 	}
 	public void setZonghe(double zonghe) {
-		this.zonghe = zonghe;
+		this.zonghe = Math.rint(zonghe*100)/100;
 	}
 	public int getPaiming() {
 		return paiming;

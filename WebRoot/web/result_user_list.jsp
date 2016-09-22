@@ -1,12 +1,8 @@
 <%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8" %>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -186,12 +182,11 @@ $(document).ready(function(){
         	<td>	<s:property value="#status.index+1"  />  </td>
 	        <td>	<s:property value="#u.user.department.name"  />  	</td>
 	        <td>	<s:property value="#u.user.name"  />  </td>
-	     
-	   		<td><fmt:formatNumber value="${u.zuyao}" pattern="#0.00" /> </td>
-	        <td><fmt:formatNumber value="${u.fenguang}" pattern="#0.00" /> </td>
-	        <td><fmt:formatNumber value="${u.sijingli}" pattern="#0.00" /> </td>
-	        <td><fmt:formatNumber value="${u.yuangong}" pattern="#0.00" /> </td>
-	        <td><fmt:formatNumber value="${u.zonghe}" pattern="#0.00" /> </td>
+	        <td>	<s:property value="#u.zuyao"  />  </td>
+	        <td>	<s:property value="#u.fenguang"  />  </td>
+	        <td>	<s:property value="#u.sijingli"  />  </td>
+	        <td>	<s:property value="#u.yuangong"  />  </td>
+	        <td>	<s:property value="#u.zonghe"  />  </td>
 	        <td>
 	        	<div class="tools">
 			    	<ul class="toolbar">
