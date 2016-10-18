@@ -396,7 +396,7 @@ public class KPIAction extends SuperAction {
 		}
 		user=userService.load(user.getUid());
 		for (KPI k : user.getMyKPIs()) {
-			if(k.getQuarter().getQid()==quarter.getQid()&&k.getFillUser().getUid()!=user.getUid()){
+			if(k.getQuarter().getQid()==quarter.getQid()){
 				kpi=k;
 				break;
 			}
