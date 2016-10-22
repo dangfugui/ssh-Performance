@@ -340,7 +340,7 @@ public class UserAction extends SuperAction{
 			}
 			
 			userkpi.setSijingli(sum/proportion);sum=0.0;proportion=0.0;
-			for (int i=0;i< yuangong1.size();i++) {//主要负责人
+			for (int i=0;i< yuangong1.size();i++) {//员工
 				sum+=yuangong1.get(i)*yuangong2.get(i);
 				proportion+=yuangong1.get(i);
 			}

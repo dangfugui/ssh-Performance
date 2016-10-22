@@ -441,21 +441,21 @@ public class KPIAction extends SuperAction {
 		quarter=quarterService.load(quarter.getQid());
 		Set<KPI> kpisSet = quarter.getKpis();
 		//处理每个KPI表的成绩
-		for (KPI kpi : kpisSet) {
+		for (KPI kpi : kpisSet) {//拿到这个季度所有的指标表  进行遍历处理
 			List<ContentKPI> contents = kpi.getContents();
 			//处理每个content表
-			for (ContentKPI contentKPI : contents) {
-				Set<ScoreKPI> scores = contentKPI.getScores();
+			for (ContentKPI contentKPI : contents) {//遍历处理指标表中的所有指标
+				Set<ScoreKPI> scores = contentKPI.getScores();//拿到指标所有员工的评分
 				double contentResult=0.0;
 				//计算每个指标的总分
-				for (ScoreKPI scoreKPI : scores) {
-					Proportion proportion=proportionService.
+				for (ScoreKPI scoreKPI : scores) {//对这一指标中的 每个人的评分进行遍历
+					Proportion proportion=proportionService.//拿到这个人的评分比例
 							find(quarter,kpi.getAimUser().getUid(), scoreKPI.getFillUser().getUid());
-					if(null!=proportion){
+					if(null!=proportion){//累加  评分*这个人的评分比例计算这一指标的综合成绩
 						contentResult+=scoreKPI.getScore()*proportion.getProportion();
 					}
 				} //for score
-				contentKPI.setResult(contentResult/100);
+				contentKPI.setResult(contentResult/100);//保存  %单位的成绩
 				kpiService.update(contentKPI);	
 			}//for  contents			
 		}//for  kpisSet		
