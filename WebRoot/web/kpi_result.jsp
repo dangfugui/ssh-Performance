@@ -93,7 +93,7 @@ function change(contentKpiid,input){
 		 <li><label>季度</label>  
 		    <div class="vocation">
 		    <input type="hidden" name="user.uid" value="<s:property value="user.uid" />" /> 
-		    <select class="select3"	name="quarter.qid" id="quarterid" >
+		    <select class="select3"	name="quarter.qid" id="quarterid" onchange="submit();"  >
 		     <s:iterator value="quarterList" var="quarter">
 		     <s:if test="#quarter.qid==#session.quarter.qid">
 		     	 <option selected = "selected" value='<s:property value="#quarter.qid" />' >
