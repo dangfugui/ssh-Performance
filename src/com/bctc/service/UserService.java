@@ -32,7 +32,11 @@ public class UserService extends SuperService {
 		hibernateTemplate.update(user);
 	}
 	public void update(User user){
-		user.setPassword(MD5Util.getMD5(user.getPassword()));
+		if(user.getUid()!=0&&user.getPassword().length()<2){
+			user.setPassword(load(user.getUid()).getPassword());
+		}else{
+			user.setPassword(MD5Util.getMD5(user.getPassword()));
+		}
 		hibernateTemplate.bulkUpdate("update User set agentId=?, name=? , password = ? ,department.did=? , role.rid=? ,powerGroup.pid=? where uid=?",
 					new Object[]{user.getAgentId(),user.getName(),user.getPassword(),user.getDepartment().getDid(),user.getRole().getRid(),user.getPowerGroup().getPid(),user.getUid()});
 		//hibernateTemplate.update(user);
@@ -106,6 +110,12 @@ public class UserService extends SuperService {
 			list = (List<User>) hibernateTemplate.find("from User where uid <> ? and state in "+State.LISTIN+" order by agentId", 
 					new Object[]{userId});
 		}
+		return list;
+	}
+	
+	public List<User> listByGrade(User user,int frade){
+		List<User> list = (List<User>) hibernateTemplate.find("from User where uid <> ?  and role.grade < ?  and  state in "+State.LISTIN+" order by agentId", 
+				new Object[]{user.getUid(),frade});
 		return list;
 	}
 	//public List<User> listExcludeDepartment(long , long departmentDid, long roleRid) {}

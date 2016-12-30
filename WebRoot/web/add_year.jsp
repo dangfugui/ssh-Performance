@@ -84,13 +84,13 @@ $(document).ready(function(){
     </ul>
     </div>
     <form action="Year_add.action" method="post">
-    
+     <input type="hidden" name="year.yid" value='<s:property value="year.yid"/>' />
     <div class="rightinfo">
 	<div class="tools">
     <ul class="toolbarm">
 	    <li><label></label></li>		<li><label>  </label></li>
 	    <li><label>年度名</label></li>
-	    <li><input name="year.name"  type="text"  class="dfinput" /></li>
+	    <li><input name="year.name"  type="text"  class="dfinput" value='<s:property value="year.name"/>' /></li>
         </ul>
    </div>
     <table class="tablelist">
@@ -98,22 +98,21 @@ $(document).ready(function(){
     	<tr>
 	        <th>选择</th>
 	        <th>季度</th>
-	        <th>选择</th>
-	        <th>季度</th>	        
-	        <th>选择</th>
-	        <th>季度</th>
-	        <th>选择</th>
-	        <th>季度</th>
+	        <th>所占比例</th>
         </tr>
         </thead>
         <tbody>
-        <s:set name="h" value="0"></s:set> 
         <s:iterator value="quarterList" var="q" status="status"> 
-	        <s:if test="#h%4==0"> <tr> </s:if>
-	        	<td><input name="quarterList.qid" type="checkbox" value='<s:property value="#q.qid"/>' /></td>
-	        	<td><s:property value="#q.name"/>	</td>
-	        <s:if test="#h%4==3"> </tr> </s:if>
-	        <s:set name="h" value="#h+1" />
+        <tr>
+            <td><s:if test="#session.year.yid==#q.year.yid">
+            <input name="quarterList.qid" type="checkbox" value='<s:property value="#q.qid"/>' checked="checked" /></s:if>
+            <s:else> <input name="quarterList.qid" type="checkbox" value='<s:property value="#q.qid"/>' /></s:else>
+            </td>
+
+	        <td><s:property value="#q.name"/>	</td>
+	        <td><label><input type="text" class="scinput1"  onkeyup="this.value=this.value.replace(/[^\-+\d+\.]/g,'')"  
+	    	name="map[<s:property value="#q.qid"/>]" value='<s:property value="#q.proportion"/>'/></label></td>
+	    </tr>
         </s:iterator>
         </tbody>
     </table>

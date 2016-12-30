@@ -18,29 +18,29 @@ import javax.persistence.OneToMany;
 import com.bctc.tool.State;
 
 /**
- * KPI关键指标
+ * KPI鍏抽敭鎸囨爣
 */
 @Entity
 public class KPI {
 	@Id
 	@GeneratedValue
 	private long kid;
-	private double result=0.0;//最终结果
-	private String state=State.DEFAULT;	//状态
-	private Date date=new Date();	//默认为当前时间
-	@ManyToOne( fetch=FetchType.EAGER)//级联关系和抓取策略(积极)
-	@JoinColumn(name="aimUser_uid")	//指定外键    自己的数据库外键列名
-	private User aimUser;//被考核人
-	@ManyToOne(fetch=FetchType.EAGER)//级联关系和抓取策略(积极)
-	@JoinColumn(name="fillUser_uid")	//指定外键    自己的数据库外键列名
-	private User fillUser;//指标拟定人
-	@ManyToOne( fetch=FetchType.EAGER)//级联关系和抓取策略(积极)
-	@JoinColumn(name="quarter_qid")	//指定外键    自己的数据库外键列名
-	private Quarter quarter ;//所属季度id
+	private double result=0.0;//鏈�粓缁撴灉
+	private String state=State.DEFAULT;	//鐘舵�
+	private Date date=new Date();	//榛樿涓哄綋鍓嶆椂闂�
+	@ManyToOne( fetch=FetchType.EAGER)//绾ц仈鍏崇郴鍜屾姄鍙栫瓥鐣�绉瀬)
+	@JoinColumn(name="aimUser_uid")	//鎸囧畾澶栭敭    鑷繁鐨勬暟鎹簱澶栭敭鍒楀悕
+	private User aimUser;//琚�鏍镐汉
+	@ManyToOne(fetch=FetchType.EAGER)//绾ц仈鍏崇郴鍜屾姄鍙栫瓥鐣�绉瀬)
+	@JoinColumn(name="fillUser_uid")	//鎸囧畾澶栭敭    鑷繁鐨勬暟鎹簱澶栭敭鍒楀悕
+	private User fillUser;//鎸囨爣鎷熷畾浜�
+	@ManyToOne( fetch=FetchType.EAGER)//绾ц仈鍏崇郴鍜屾姄鍙栫瓥鐣�绉瀬)
+	@JoinColumn(name="quarter_qid")	//鎸囧畾澶栭敭    鑷繁鐨勬暟鎹簱澶栭敭鍒楀悕
+	private Quarter quarter ;//鎵�睘瀛ｅ害id
 	
-	//	控制反转 交给user控制				级联删除			级联关键系             			抓取策略(懒加载)
+	//	鎺у埗鍙嶈浆 浜ょ粰user鎺у埗				绾ц仈鍒犻櫎			绾ц仈鍏抽敭绯�            			鎶撳彇绛栫暐(鎳掑姞杞�
 	@OneToMany( /*orphanRemoval=true , mappedBy="department",*/cascade={CascadeType.REMOVE},fetch=FetchType.LAZY)//
-	@JoinColumn(name="kpi_kid")//对应外键名称   对方的数据库外键列名
+	@JoinColumn(name="kpi_kid")//瀵瑰簲澶栭敭鍚嶇О   瀵规柟鐨勬暟鎹簱澶栭敭鍒楀悕
 	private List<ContentKPI> contents=new ArrayList<ContentKPI>();
 	
 	public KPI(){}

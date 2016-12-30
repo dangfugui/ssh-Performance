@@ -25,6 +25,7 @@ public class Quarter {
 	private long qid;//季度id
 	private String name;//季度名
 	private Date date=new Date();	//默认为当前时间
+	private Double proportion;
 	private String state=State.DEFAULT;	//状态
 	
 	@OneToMany( cascade={} ,fetch=FetchType.LAZY)//
@@ -34,8 +35,10 @@ public class Quarter {
 	@JoinColumn(name="quarter_qid")//对应外键名称   对方的数据库外键列名
 	private Set<Proportion> proportions;
 	
-	@ManyToMany(mappedBy="quarters") //指定被主控放控制  自己的句柄名
-	private Set<Year> years=new HashSet<Year>();
+	//@ManyToMany(mappedBy="quarters") //指定被主控放控制  自己的句柄名
+	@ManyToOne(cascade={} ,fetch=FetchType.EAGER)//级联关系和抓取策略(积极)
+	@JoinColumn(name="year_yid")	//指定外键    自己的数据库外键列名
+	private Year year= new Year();
 	//private Set<Teachers> teachers=new HashSet<Teachers>(); 学生
 
 	public Quarter(){}
@@ -86,16 +89,21 @@ public class Quarter {
 		this.proportions = proportions;
 	}
 
-	public Set<Year> getYears() {
-		return years;
+	public Year getYear() {
+		return year;
 	}
 
-	public void setYears(Set<Year> years) {
-		this.years = years;
+	public void setYear(Year year) {
+		this.year = year;
 	}
 
+	public Double getProportion() {
+		return proportion;
+	}
 
+	public void setProportion(Double proportion) {
+		this.proportion = proportion;
+	}
 
-	
 	
 }

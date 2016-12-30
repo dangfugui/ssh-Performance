@@ -36,10 +36,12 @@ public class Year {
 	@JoinColumn(name="year_yid")//对应外键名称   对方的数据库外键列名
 	private Set<Average> averages;	//总分表
 	
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="years_quarters",	//中间表名称
-	joinColumns={@JoinColumn(name="year_yid")},	//本表主键
-	inverseJoinColumns={@JoinColumn(name="quarter_qid")})//外表主键
+//	@ManyToMany(fetch=FetchType.LAZY)
+//	@JoinTable(name="years_quarters",	//中间表名称
+//	joinColumns={@JoinColumn(name="year_yid")},	//本表主键
+//	inverseJoinColumns={@JoinColumn(name="quarter_qid")})//外表主键
+	@OneToMany( cascade={},fetch=FetchType.LAZY)//
+	@JoinColumn(name="year_yid")//对应外键名称   对方的数据库外键列名
 	private Set<Quarter> quarters=new HashSet<Quarter>();
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	public long getYid() {

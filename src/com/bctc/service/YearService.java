@@ -26,6 +26,11 @@ public class YearService  extends SuperService{
 		year.setState(State.DELETE);
 		hibernateTemplate.update(year);
 	}
+	public void delete(Year year, long aimUserId) {
+		// TODO Auto-generated method stub
+		hibernateTemplate.bulkUpdate("delete Year where yid = ? and aimUser.uid = ?",
+				new Object[]{year.getYid(),aimUserId});
+	}
 	
 	public void delete(Behavior behavior) {
 		hibernateTemplate.update(behavior);

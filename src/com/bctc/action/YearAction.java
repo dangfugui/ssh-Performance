@@ -32,6 +32,7 @@ public class YearAction extends SuperAction{
 	private List<Year> yearList;
 	private Behavior behavior;
 	private Year year=new Year();
+	private Map<String,Double> map =new HashMap<String, Double>();
 
 	/**
 	 *查看年度列表
@@ -40,7 +41,14 @@ public class YearAction extends SuperAction{
 		yearList=yearService.list();
 		return "year_list";
 	}
+	/**
+	 * @return
+	 */
 	public String toAdd(){
+		if(year.getYid()>0){
+			year=yearService.load(year.getYid());
+			session.setAttribute(MySession.YEAR, year);
+		}
 		quarterList=quarterService.list();
 		return "add_year";
 	}
@@ -49,12 +57,30 @@ public class YearAction extends SuperAction{
 	 * @return 
 	 */
 	public String add(){
-		Long yid=yearService.save(year);
-		year.setYid(yid);
 		if(quarterList==null||quarterList.size()==0){
 			this.addFieldError("error", "请选择年度");
 			return ERROR;
 		}
+		if(year.getYid()>0){
+			year = yearService.load(year.getYid());
+			for (Quarter quarter : quarterList) {
+				quarter= quarterService.load(quarter.getQid());
+				quarter.setYear(year);
+				quarter.setProportion(map.get(""+quarter.getQid()));
+				quarterService.update(quarter);
+			}
+			session.setAttribute(MySession.YEAR, year);
+			return list();
+		}
+		Long yid=yearService.save(year);
+		year.setYid(yid);
+		for (Quarter quarter : quarterList) {
+			quarter= quarterService.load(quarter.getQid());
+			quarter.setYear(year);
+			quarter.setProportion(map.get(""+quarter.getQid()));
+			quarterService.update(quarter);
+		}
+		////////////////////////////////////
 		//获取季度中的评分比例
 		Map<String, Double> map=new HashMap<String, Double>();
 		Set<Quarter> quarters=new HashSet<Quarter>();
@@ -74,7 +100,6 @@ public class YearAction extends SuperAction{
 			
 		}
 		year.setQuarters(quarters);	
-		yearService.save(year);			//保存本年度
 		//计算年度平均评分比例
 		int size=quarterList.size();
 		  for (Map.Entry<String, Double> entry : map.entrySet()) {
@@ -86,6 +111,7 @@ public class YearAction extends SuperAction{
 			  Average a=new Average(entry.getValue()/size, year, aimUser, sourceUser);
 			  averageService.save(a);
 		  }
+		 /////////////////////////////////
 		//拷贝上年的行为绩效表
 		  yearList=yearService.list();
 		  if(yearList!=null&&yearList.size()>1){	//不是第一年
@@ -183,6 +209,12 @@ public class YearAction extends SuperAction{
 	}
 	public void setBehavior(Behavior behavior) {
 		this.behavior = behavior;
+	}
+	public Map<String, Double> getMap() {
+		return map;
+	}
+	public void setMap(Map<String, Double> map) {
+		this.map = map;
 	}
 	
 	

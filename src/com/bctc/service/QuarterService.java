@@ -35,7 +35,10 @@ public class QuarterService extends SuperService{
 		return list;
 	}
 	public Quarter load(long id){
-		return hibernateTemplate.load(Quarter.class, id);
+		@SuppressWarnings("unchecked")
+		List<Quarter> list = (List<Quarter>) hibernateTemplate.find("from Quarter where qid= ?",new Object[]{id});
+		return list.get(0);
+		//return hibernateTemplate.load(Quarter.class, id);
 	}
 	
 	

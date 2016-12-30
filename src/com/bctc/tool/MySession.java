@@ -25,6 +25,8 @@ public  class MySession {
 	 * 正给谁设置评分比例
 	 */
 	public final static String PROPORTIONUSER="proportion_user";//正给谁设置评分比例
+	
+	public final static String AVERAGEUSER = "average_user";//正给谁设置评分比例  年度
 	/**
 	 * 验证码
 	 */

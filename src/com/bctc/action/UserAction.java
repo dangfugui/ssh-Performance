@@ -6,13 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
 import javax.annotation.Resource;
-import javax.management.Query;
-
-import org.hibernate.mapping.Array;
-
 import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
@@ -20,6 +14,7 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
+import com.bctc.entity.Average;
 import com.bctc.entity.Department;
 import com.bctc.entity.KPI;
 import com.bctc.entity.PowerGroup;
@@ -29,6 +24,7 @@ import com.bctc.entity.ResultYear;
 import com.bctc.entity.Role;
 import com.bctc.entity.User;
 import com.bctc.entity.Year;
+import com.bctc.service.AverageService;
 import com.bctc.service.DepartmentService;
 import com.bctc.service.KPIService;
 import com.bctc.service.PowerGroupService;
@@ -55,6 +51,8 @@ public class UserAction extends SuperAction{
 	private YearService yearService;
 	private ResultYearService resultYearService;
 	private ProportionService proportionService;
+	@Resource
+	private AverageService averageService;
 	private KPIService kpiService;
 	private List<Quarter> quarterList;
 	private List<Department> departmentlist;
@@ -133,7 +131,7 @@ public class UserAction extends SuperAction{
 			this.addFieldError("error", "权限不足");
 			return "error";
 		}
-	
+		
 		if (departmentDid != 0) {
 			user.setDepartment(departmentServict.load(departmentDid));
 		}
@@ -161,9 +159,9 @@ public class UserAction extends SuperAction{
 			this.addFieldError("error", "权限不足");
 			return "error";
 		}
-		if(userService.load(user.getUid()).getRole().getGrade()>=Tool.getUser().getRole().getGrade()){
+	
 			userService.delete(user);
-		}
+		
 		return list();
 	}
 	
@@ -252,6 +250,37 @@ public class UserAction extends SuperAction{
 		}
 		return "proportion_user_list";
 	}
+	
+	/**
+	 * 显示     年度        要拟定比例的人员列表  ####
+	 */
+	public String listForAverage(){
+		if(!Tool.havePower("E2")){
+			this.addFieldError("error", "权限不足");
+			return "error";
+		}
+		System.out.println(year.getYid());
+		if(0!=year.getYid()){
+			year=yearService.load(year.getYid());
+			session.setAttribute(MySession.YEAR, year);
+		}else {
+			if(yearService.list().size()>0){
+				year=yearService.list().get(0);
+				session.setAttribute(MySession.QUARTER,quarter);
+			}
+		}
+		initList();
+		yearList=yearService.list();
+		for (User u : list) {
+			List<Average> alist = averageService.find(year, u.getUid());
+			if(null!=alist){
+				proportionMap.put(u.getUid(),""+alist.size());
+			}
+		}
+		return "average_user_list";
+	}
+	
+	
 	
 	/**
 	 * 显示要查看考核情况的人员列表
@@ -364,6 +393,8 @@ public class UserAction extends SuperAction{
 	 * @throws RowsExceededException 
 	 */
 	public void listForResultDownload() throws IOException, RowsExceededException, WriteException{
+		quarter=(Quarter) session.getAttribute(MySession.QUARTER);
+		quarterQid = quarter.getQid();
 		listForResult();
 		String fname = "考核结果-"+quarter.getName();
 		OutputStream os = response.getOutputStream();//取得输出流
@@ -434,6 +465,8 @@ public class UserAction extends SuperAction{
 	 * @throws WriteException
 	 */
 	public void listForDetailDownload() throws IOException, RowsExceededException, WriteException{
+		quarter = (Quarter) session.getAttribute(MySession.QUARTER);
+		quarterQid = quarter.getQid();
 		listForDetail();
 		String fname = "互评详表-"+quarter.getName();
 		OutputStream os = response.getOutputStream();//取得输出流
@@ -516,6 +549,46 @@ public class UserAction extends SuperAction{
 		}
 		list=mylist;
 		return "year_score_user_list";
+	}
+	public void listForYearDownload() throws IOException, RowsExceededException, WriteException{
+	
+		year=(Year) session.getAttribute(MySession.YEAR);
+		
+		String fname = "考核结果-"+year.getName();
+		OutputStream os = response.getOutputStream();//取得输出流
+		response.reset();//清空输出流
+		//下面是对中文文件名的处理
+		response.setCharacterEncoding("UTF-8");//设置相应内容的编码格式
+		fname = java.net.URLEncoder.encode(fname,"UTF-8");
+		response.setHeader("Content-Disposition","attachment;filename="+new String("download-year")+".xls");
+		response.setContentType("application/msexcel");//定义输出类型
+		  //创建工作薄
+        WritableWorkbook workbook = Workbook.createWorkbook(os);
+        //创建新的一页
+        WritableSheet sheet = workbook.createSheet("First Sheet",0);
+        //创建要显示的内容,创建一个单元格，第一个参数为列坐标，第二个参数为行坐标，第三个参数为内容
+        String[] tatle={"姓名","部门","角色","总分"};
+        for (int i = 0; i < tatle.length; i++) {
+        	 Label xuexiao = new Label(i,0,tatle[i]);
+             sheet.addCell(xuexiao);
+		}
+        initList();
+        for (int h = 0; h < list.size(); h++) {
+			User u=list.get(h);
+			ResultYear resultYear = resultYearService.load(year, u);
+			sheet.addCell(new Label(0,h+1,u.getName()));
+			sheet.addCell(new Label(1,h+1,u.getDepartment().getName()));
+			sheet.addCell(new Label(2,h+1,""+u.getRole().getName()));
+			if(resultYear!=null){
+				sheet.addCell(new Label(3,h+1,""+resultYear.getResult()));
+			}else {
+				sheet.addCell(new Label(3,h+1,"未打分"));
+			}
+		}
+        //把创建的内容写入到输出流中，并关闭输出流
+        workbook.write();
+        workbook.close();
+        os.close();   
 	}
 	
 	/**
@@ -763,6 +836,14 @@ public class UserAction extends SuperAction{
 
 	public void setProportionMap(Map<Long, String> proportionMap) {
 		this.proportionMap = proportionMap;
+	}
+
+	public AverageService getAverageService() {
+		return averageService;
+	}
+
+	public void setAverageService(AverageService averageService) {
+		this.averageService = averageService;
 	}
 	
 	

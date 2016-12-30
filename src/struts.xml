@@ -55,7 +55,10 @@
  			<result name="year_score_user_list">year_score_user_list.jsp</result><!--查看年度成绩 -->
  			<result name="powerGroup_list">powerGroup_list.jsp </result>		<!-- 权限组列表 -->
  			<result name="powerGroup_toAddOrUpdate">powerGroup_toAddOrUpdate.jsp</result><!-- 添加或修改权限组 -->
- 			<interceptor-ref name="myStack"></interceptor-ref>		<!-- 引用默认拦截器栈 -->
+ 			<result name="average_user_list">average_user_list.jsp </result>		<!--年度比例设定 -->
+ 			<result name="look_average">look_average.jsp </result>		<!-- 查看年度比例 -->
+ 			<result name="average_list">average_list.jsp </result>		<!-- 设置年度比例 -->
+ 			<interceptor-ref name="myStack"></interceptor-ref><!-- 引用默认拦截器栈 -->
  		</action>
  	</package>
 </struts>    

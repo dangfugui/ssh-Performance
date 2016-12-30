@@ -47,6 +47,9 @@ public class ProportionAction extends SuperAction {
 		session.setAttribute(MySession.PROPORTIONUSER, user);
 		roleList = roleService.list();
 		userList = userService.listExcludeUser(user.getUid(), user.getDepartment().getDid(), 0);
+		if(user.getRole().getGrade()<50){
+			userList.addAll(userService.listByGrade(user, 50));
+		}
 		return "proportion_list";
 	}
 	/**

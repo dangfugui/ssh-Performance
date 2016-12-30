@@ -86,6 +86,9 @@ $(document).ready(function(){
 									<li onclick="javascript:window.location.href='Year_toBehavior.action?year.yid=<s:property value="#y.yid"/>' ">
 										<span><img src="images/t02.png" /></span>拟表
 									</li>
+									<li onclick="javascript:window.location.href='Year_toAdd.action?year.yid=<s:property value="#y.yid"/>' ">
+										<span><img src="images/t03.png" /></span>设置
+									</li>
 									<li
 										onclick="javascript:if(confirm('确认删除年度?'))window.location.href='Year_delete.action?year.yid=<s:property value="#y.yid" />' ">
 										<span><img src="images/t03.png" /></span>删除

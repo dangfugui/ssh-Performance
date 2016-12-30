@@ -14,8 +14,8 @@ public class Config {
 	/**
 	 * 年度总成绩任务绩效和行为绩效所占比例
 	 */
-	public static final Double year=0.2;		//年度成绩所占比例
-	public static final Double quarters=0.8;	//季度成绩所占比例
+//	public static final Double year=0.2;		//年度成绩所占比例
+//	public static final Double quarters=0.8;	//季度成绩所占比例
 	
 	
 	private Config(){}

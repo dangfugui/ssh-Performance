@@ -122,7 +122,7 @@ $(document).ready(function(){
     		<td><input type="checkbox" name="powerList" value="A3" <s:if test="powerGroup.powerString.contains('A3')">checked="checked"</s:if>  /> <label> </label>非本部门</td>
     		<td><input type="checkbox" name="powerList" value="B3" <s:if test="powerGroup.powerString.contains('B3')">checked="checked"</s:if>  /> <label> </label>季度打分 </td>
     		<td><input type="checkbox" name="powerList" value="C3" <s:if test="powerGroup.powerString.contains('C3')">checked="checked"</s:if>  /> <label> </label>指标模板</td>
-    		<td> </td>
+    		<td><input type="checkbox" name="powerList" value="D3" <s:if test="powerGroup.powerString.contains('D3')">checked="checked"</s:if>  /> <label> </label>比例调整</td>
     		<td><input type="checkbox" name="powerList" value="E3" <s:if test="powerGroup.powerString.contains('E3')">checked="checked"</s:if>  /> <label> </label>部门列表</td>
     	</tr>
     	<tr>

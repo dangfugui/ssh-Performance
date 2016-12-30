@@ -139,6 +139,8 @@ $(document).ready(function(){
 		    </div>
 	    </li>    
 	    <li><input  type="submit" class="sure" value="查询"/></li>
+	   <li><input  type="button" class="sure" value="导出"
+	    	onclick="window.location.href='User_listForYearDownload.action'"/></li>
     </ul>
     </form>
     <s:if test="#session.login_user.powerGroup.powerString.contains('A5')">

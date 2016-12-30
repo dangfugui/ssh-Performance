@@ -1,8 +1,8 @@
 /applicationContext.xml
+/bctc_20161018.sql
+/bctc_20161021.sql
 /com/
 /jdbc.properties
 /ognl/
 /org/
 /struts.xml
-/bctc_20161018.sql
-/bctc_20161021.sql
