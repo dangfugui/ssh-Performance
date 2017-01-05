@@ -5,6 +5,7 @@ package com.bctc.service;
 
 import java.util.List;
 
+import org.hibernate.mapping.Array;
 import org.springframework.stereotype.Component;
 
 import com.bctc.entity.Behavior;
@@ -19,6 +20,9 @@ public class YearService  extends SuperService{
 	
 	public void saveBehavior(Behavior behavior){
 		hibernateTemplate.save(behavior);
+	}
+	public Behavior loadBehavior(Behavior behavior){
+		return (Behavior) hibernateTemplate.find("from Behavior where bid= ? " ,new Object[]{behavior.getBid()}).get(0);
 	}
 
 	public void delete(Year year) {

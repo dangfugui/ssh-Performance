@@ -13,6 +13,7 @@ import com.bctc.entity.User;
 import com.bctc.service.AverageService;
 import com.bctc.service.ScoreYearService;
 import com.bctc.service.UserService;
+import com.bctc.service.YearService;
 import com.bctc.tool.MySession;
 
 public class ScoreYearAction extends SuperAction{
@@ -24,6 +25,8 @@ public class ScoreYearAction extends SuperAction{
 	private Behavior behavior=new Behavior();
 	private ScoreYear scoreYear=new ScoreYear();
 	private AverageService averageService;
+	@Resource
+	private YearService yearService;
 	private Map<Long,Double> map=new HashMap<Long, Double>();
 	/**
 	 * 提交打分 
@@ -34,7 +37,9 @@ public class ScoreYearAction extends SuperAction{
 		for (Map.Entry<Long, Double> entry : map.entrySet()) {
 		   System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
 		   long bid=entry.getKey();
+		   behavior=new Behavior();
 		   behavior.setBid(bid);
+		   behavior =yearService.loadBehavior(behavior);
 		   Double score=entry.getValue();
 		   if(null==score){
 			   score=0.0;
@@ -50,12 +55,9 @@ public class ScoreYearAction extends SuperAction{
 			   scoreYearService.update(scoreYear);
 		   }
 		}
-		List<Average> averageList = averageService.findByAimUser(scoreYear.getBehavior().getYear(), user);
-		if(null!=averageList&&averageList.size()!=0){
-			Average average = averageList.get(0);
-			average.setState(""+sum);
-			averageService.update(average);
-		}
+		Average average = averageService.find(scoreYear.getBehavior().getYear(), user.getUid(),Tool.getUser().getUid());
+		average.setState(""+sum);
+		averageService.update(average);
 		this.addActionMessage("打分成功");
 		return SUCCESS;
 		
