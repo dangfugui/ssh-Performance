@@ -107,27 +107,27 @@ public class AverageAction extends SuperAction {
 			for (Average average : list) {
 				total+=average.getAverage()*average.getTotal();
 			}
-			double standard=0.0;
-			int grade=a.getAimUser().getRole().getGrade();
-			if(grade<50){
-				for(int i=0;i<Config.senior.length;i++){
-					if(Config.senior[i]<=total){
-						standard=Config.standard[i];
-					}
-				}
-			}else if(grade<100){
-				for(int i=0;i<Config.middle.length;i++){
-					if(Config.middle[i]<=total){
-						standard=Config.standard[i];
-					}
-				}
-			}else{
-				for(int i=0;i<Config.staff.length;i++){
-					if(Config.staff[i]<=total){
-						standard=Config.standard[i];
-					}
-				}
-			}
+			double standard=total;
+//			int grade=a.getAimUser().getRole().getGrade();
+//			if(grade<50){
+//				for(int i=0;i<Config.senior.length;i++){
+//					if(Config.senior[i]<=total){
+//						standard=Config.standard[i];
+//					}
+//				}
+//			}else if(grade<100){
+//				for(int i=0;i<Config.middle.length;i++){
+//					if(Config.middle[i]<=total){
+//						standard=Config.standard[i];
+//					}
+//				}
+//			}else{
+//				for(int i=0;i<Config.staff.length;i++){
+//					if(Config.staff[i]<=total){
+//						standard=Config.standard[i];
+//					}
+//				}
+//			}
 			//计算总总总成绩！
 			//计算季度平均成绩
 			double quarterAll=0.0;
