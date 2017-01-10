@@ -10,7 +10,7 @@ import com.bctc.entity.Year;
 @Component
 public class ResultYearService extends SuperService {
 	public void save(ResultYear resultYear){
-		hibernateTemplate.save(resultYear);
+		hibernateTemplate.saveOrUpdate(resultYear);
 	}
 	
 	/**

@@ -58,6 +58,8 @@
  			<result name="average_user_list">average_user_list.jsp </result>		<!--年度比例设定 -->
  			<result name="look_average">look_average.jsp </result>		<!-- 查看年度比例 -->
  			<result name="average_list">average_list.jsp </result>		<!-- 设置年度比例 -->
+ 			<result name="result_year_detail_list">result_year_detail_list.jsp </result><!-- 查看年度互评详细表 -->
+ 			
  			<interceptor-ref name="myStack"></interceptor-ref><!-- 引用默认拦截器栈 -->
  		</action>
  	</package>

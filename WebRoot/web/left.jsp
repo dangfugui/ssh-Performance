@@ -143,6 +143,10 @@ $(function(){
 	       <li>	<div class="header">	<cite></cite>
 	            <a href="User_listForAverage.action" target="rightFrame">比例调整</a>
 	       </div></li></s:if>
+	        <s:if test="#session.login_user.powerGroup.powerString.contains('D4')">
+	        <li>	<div class="header">	<cite></cite>
+	            <a href="User_listForYearDetail.action" target="rightFrame">互评详表</a>
+	       </div></li></s:if>
         </ul>    
     </dd>
 

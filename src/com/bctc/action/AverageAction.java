@@ -105,7 +105,7 @@ public class AverageAction extends SuperAction {
 			List<Average> list = averageService.findByAimUser(year, a.getAimUser());
 			double total=0.0;
 			for (Average average : list) {
-				total+=average.getAverage()*average.getTotal();
+				total+=(average.getAverage()/100)*average.getTotal();
 			}
 			double standard=total;
 //			int grade=a.getAimUser().getRole().getGrade();
@@ -147,6 +147,9 @@ public class AverageAction extends SuperAction {
 				resultYearService.save(resultYear);
 			}else{
 				resultYear.setResult((standard*(100-sumProportion))/100+quarterAll);
+				if(resultYear.getResult()>100){
+					System.out.println(resultYear.getResult());
+				}
 				resultYearService.save(resultYear);
 			}
 			

@@ -33,7 +33,6 @@ public class ScoreYearAction extends SuperAction{
 	 * @return 
 	 */
 	public String scoreYear(){
-		double sum=0.0;
 		for (Map.Entry<Long, Double> entry : map.entrySet()) {
 		   System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
 		   long bid=entry.getKey();
@@ -44,7 +43,7 @@ public class ScoreYearAction extends SuperAction{
 		   if(null==score){
 			   score=0.0;
 		   }
-		   sum+=score;
+		  // sum+=score;
 		   user=(User) session.getAttribute(MySession.AIMUSER);
 		   scoreYear= scoreYearService.load(behavior,Tool.getUser(),user);
 		   if(scoreYear==null){
@@ -55,8 +54,20 @@ public class ScoreYearAction extends SuperAction{
 			   scoreYearService.update(scoreYear);
 		   }
 		}
+		double sum=0.0;
+		List<ScoreYear> sourceYearList = scoreYearService.find(behavior.getYear(),user,Tool.getUser());
+		if(sourceYearList!= null){
+			for(ScoreYear s:sourceYearList){
+				sum+= s.getScore();
+			}
+		}
+		
 		Average average = averageService.find(scoreYear.getBehavior().getYear(), user.getUid(),Tool.getUser().getUid());
-		average.setState(""+sum);
+		if(sum < 0.000001){
+			average.setState("未打分");
+		}else{
+			average.setState(""+sum);
+		}
 		averageService.update(average);
 		this.addActionMessage("打分成功");
 		return SUCCESS;

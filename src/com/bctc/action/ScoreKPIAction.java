@@ -1,6 +1,7 @@
 package com.bctc.action;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -40,7 +41,7 @@ public class ScoreKPIAction  extends SuperAction{
 		quarter=(Quarter) session.getAttribute(MySession.QUARTER);
 		user=(User) session.getAttribute(MySession.LOGINUSER);
 		KPI kpi = null;
-		double sum=0.0;
+		
 		for (Entry<Integer, Double> entry : map.entrySet()) {
 			System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
 			int cid=entry.getKey();
@@ -50,7 +51,7 @@ public class ScoreKPIAction  extends SuperAction{
 			}else{
 				score=entry.getValue();
 			}
-			sum+=score;
+			//sum+=score;
 			scoreKPI=scoreKPIService.load(cid,user.getUid());
 			if(null==scoreKPI){
 				scoreKPI=new ScoreKPI();
@@ -66,8 +67,19 @@ public class ScoreKPIAction  extends SuperAction{
 				scoreKPIService.update(scoreKPI);
 			}
 		}
+		List<ScoreKPI> scoreKPIList = scoreKPIService.find(quarter,kpi.getAimUser(),user);			
+		double sum = 0;
+		if(scoreKPIList!=null){
+			for(ScoreKPI s:scoreKPIList){
+				sum+=s.getScore();
+			}
+		}
 		Proportion proportion = proportionService.find(quarter, kpi.getAimUser().getUid(), user.getUid());
-		proportion.setState(""+sum);
+		if(sum < 0.000001){
+			proportion.setState("未打分");
+		}else{
+			proportion.setState(""+sum);
+		}
 		proportionService.update(proportion);
 		this.addActionMessage("打分成功");
 		return "success";//跳转到登录页面

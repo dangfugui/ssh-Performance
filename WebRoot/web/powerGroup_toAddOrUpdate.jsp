@@ -129,7 +129,7 @@ $(document).ready(function(){
     		<td><input type="checkbox" name="powerList" value="A4" <s:if test="powerGroup.powerString.contains('A4')">checked="checked"</s:if>  /> <label> </label>角色比自己小的</td>
     		<td><input type="checkbox" name="powerList" value="B4" <s:if test="powerGroup.powerString.contains('B4')">checked="checked"</s:if>  /> <label> </label>年度打分</td>
     		<td><input type="checkbox" name="powerList" value="C4" <s:if test="powerGroup.powerString.contains('C4')">checked="checked"</s:if>  /> <label> </label>考核结果</td>
-    		<td> </td>
+    		<td><input type="checkbox" name="powerList" value="D4" <s:if test="powerGroup.powerString.contains('D4')">checked="checked"</s:if>  /> <label> </label>互评详表 </td>
     		<td><input type="checkbox" name="powerList" value="E4" <s:if test="powerGroup.powerString.contains('E4')">checked="checked"</s:if>  /> <label> </label>角色列表 </td>
     	</tr>
     	<tr>

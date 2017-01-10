@@ -459,6 +459,34 @@ public class UserAction extends SuperAction{
 		return "result_detail_list";
 	}
 	/**
+	 * 查看互评详表
+	 */
+	public String listForYearDetail(){
+		yearList = yearService.list();
+		if(year.getYid()==0){
+			year = (Year) session.getAttribute(MySession.YEAR);
+		}else{
+			year = yearService.load(year.getYid());
+			session.setAttribute(MySession.YEAR, year);
+		}
+		if(departmentDid==0){
+			departmentDid=Tool.getUser().getDepartment().getDid();
+		}
+		initList();
+		for(User u:list){
+			Map<Long, Double> m=new HashMap<Long, Double>();
+			for (User x:list) {
+				//Proportion p = proportionService.find(quarter, u.getUid(), x.getUid());
+				Average average = averageService.find(year,u.getUid() , x.getUid());
+				if(average!=null){
+					m.put(x.getUid(), average.getTotal());
+				}
+			}
+			map.put(u.getUid(), m);
+		}
+		return "result_year_detail_list";
+	}
+	/**
 	 * 互评详表的下载
 	 * @throws IOException
 	 * @throws RowsExceededException
@@ -469,6 +497,58 @@ public class UserAction extends SuperAction{
 		quarterQid = quarter.getQid();
 		listForDetail();
 		String fname = "互评详表-"+quarter.getName();
+		OutputStream os = response.getOutputStream();//取得输出流
+		response.reset();//清空输出流
+		//下面是对中文文件名的处理
+		response.setCharacterEncoding("UTF-8");//设置相应内容的编码格式
+		fname = java.net.URLEncoder.encode(fname,"UTF-8");
+		response.setHeader("Content-Disposition","attachment;filename="+new String("download")+".xls");
+		response.setContentType("application/msexcel");//定义输出类型
+		  //创建工作薄
+        WritableWorkbook workbook = Workbook.createWorkbook(os);
+        //创建新的一页
+        WritableSheet sheet = workbook.createSheet("First Sheet",0);
+        //创建要显示的内容,创建一个单元格，第一个参数为列坐标，第二个参数为行坐标，第三个参数为内容
+       // String[] tatle={"部门","姓名"};
+        sheet.addCell(new Label(0,0,"部门"));
+        sheet.addCell(new Label(1,0,"姓名"));
+        for (int i = 0; i < list.size(); i++) {
+        	 Label xuexiao = new Label(i+2,0,list.get(i).getName());
+             sheet.addCell(xuexiao);
+		}
+        for (int h = 0; h < list.size(); h++) {
+        	sheet.addCell(new Label(0,h+1,list.get(h).getDepartment().getName()));
+        	sheet.addCell(new Label(1,h+1,list.get(h).getName()));
+        	for (int i = 0; i <list.size(); i++) {
+        		//Double value = map.get(list.get(h).getUid()).get(list.get(i).getUid());
+        		Map<Long, Double> map1 = map.get(list.get(h).getUid());
+        		if(null!=map1){
+        			Double value = map1.get(list.get(i).getUid());
+        			if(null!=value){
+        				sheet.addCell(new Label(i+2,h+1,value.toString()));
+        			}
+        		}
+        		//sheet.addCell(new Label(i+2,h+1,"d"));
+			}
+		}
+        
+        //把创建的内容写入到输出流中，并关闭输出流
+        workbook.write();
+        workbook.close();
+        os.close();   
+
+	}
+	
+	/**
+	 * 年度互评详表的下载
+	 * @throws IOException
+	 * @throws RowsExceededException
+	 * @throws WriteException
+	 */
+	public void listForYearDetailDownload() throws IOException, RowsExceededException, WriteException{
+		year = (Year) session.getAttribute(MySession.YEAR);
+		listForYearDetail();
+		String fname = "互评详表-"+year.getName();
 		OutputStream os = response.getOutputStream();//取得输出流
 		response.reset();//清空输出流
 		//下面是对中文文件名的处理
