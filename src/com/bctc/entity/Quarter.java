@@ -38,7 +38,7 @@ public class Quarter {
 	//@ManyToMany(mappedBy="quarters") //指定被主控放控制  自己的句柄名
 	@ManyToOne(cascade={} ,fetch=FetchType.EAGER)//级联关系和抓取策略(积极)
 	@JoinColumn(name="year_yid")	//指定外键    自己的数据库外键列名
-	private Year year= new Year();
+	private Year year;
 	//private Set<Teachers> teachers=new HashSet<Teachers>(); 学生
 
 	public Quarter(){}
